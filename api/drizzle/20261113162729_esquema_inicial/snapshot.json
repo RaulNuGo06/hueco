@@ -1,0 +1,1670 @@
+{
+  "type": "base",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "4f707c96-fbc6-4e10-8f2b-f1d583073fb1",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "estado_cita"
+      ],
+      "writes": [
+        "s|enum|public.estado_cita",
+        "n|enum|public.estado_cita",
+        "e|enum|public.estado_cita",
+        "n|type|public.estado_cita"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "citas"
+      ],
+      "writes": [
+        "s|tbl|public.citas",
+        "n|tbl|public.citas",
+        "e|tbl|public.citas",
+        "n|rel|public.citas",
+        "n|type|public.citas",
+        "n|rel|public.citas_pkey",
+        "n|rel|public.citas_codigo_key"
+      ],
+      "reads": [
+        "n|sch|public",
+        "n|enum|public.estado_cita"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "horarios"
+      ],
+      "writes": [
+        "s|tbl|public.horarios",
+        "n|tbl|public.horarios",
+        "e|tbl|public.horarios",
+        "n|rel|public.horarios",
+        "n|type|public.horarios",
+        "n|rel|public.horarios_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "negocios"
+      ],
+      "writes": [
+        "s|tbl|public.negocios",
+        "n|tbl|public.negocios",
+        "e|tbl|public.negocios",
+        "n|rel|public.negocios",
+        "n|type|public.negocios",
+        "n|rel|public.negocios_pkey",
+        "n|rel|public.negocios_slug_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "profesional_servicios"
+      ],
+      "writes": [
+        "s|tbl|public.profesional_servicios",
+        "n|tbl|public.profesional_servicios",
+        "e|tbl|public.profesional_servicios",
+        "n|rel|public.profesional_servicios",
+        "n|type|public.profesional_servicios",
+        "n|rel|public.profesional_servicios_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "profesionales"
+      ],
+      "writes": [
+        "s|tbl|public.profesionales",
+        "n|tbl|public.profesionales",
+        "e|tbl|public.profesionales",
+        "n|rel|public.profesionales",
+        "n|type|public.profesionales",
+        "n|rel|public.profesionales_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "servicios"
+      ],
+      "writes": [
+        "s|tbl|public.servicios",
+        "n|tbl|public.servicios",
+        "e|tbl|public.servicios",
+        "n|rel|public.servicios",
+        "n|type|public.servicios",
+        "n|rel|public.servicios_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "sesiones"
+      ],
+      "writes": [
+        "s|tbl|public.sesiones",
+        "n|tbl|public.sesiones",
+        "e|tbl|public.sesiones",
+        "n|rel|public.sesiones",
+        "n|type|public.sesiones",
+        "n|rel|public.sesiones_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "usuarios"
+      ],
+      "writes": [
+        "s|tbl|public.usuarios",
+        "n|tbl|public.usuarios",
+        "e|tbl|public.usuarios",
+        "n|rel|public.usuarios",
+        "n|type|public.usuarios",
+        "n|rel|public.usuarios_pkey",
+        "n|rel|public.usuarios_email_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "citas",
+        "citas_negocio_inicio_idx"
+      ],
+      "writes": [
+        "s|idx|public.citas_negocio_inicio_idx",
+        "n|idx|public.citas_negocio_inicio_idx",
+        "e|idx|public.citas_negocio_inicio_idx",
+        "n|rel|public.citas_negocio_inicio_idx"
+      ],
+      "reads": [
+        "n|tbl|public.citas",
+        "n|sch|public",
+        "n|col|public.citas.negocio_id",
+        "n|col|public.citas.inicio"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "horarios",
+        "horarios_profesional_idx"
+      ],
+      "writes": [
+        "s|idx|public.horarios_profesional_idx",
+        "n|idx|public.horarios_profesional_idx",
+        "e|idx|public.horarios_profesional_idx",
+        "n|rel|public.horarios_profesional_idx"
+      ],
+      "reads": [
+        "n|tbl|public.horarios",
+        "n|sch|public",
+        "n|col|public.horarios.profesional_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "profesionales",
+        "profesionales_negocio_idx"
+      ],
+      "writes": [
+        "s|idx|public.profesionales_negocio_idx",
+        "n|idx|public.profesionales_negocio_idx",
+        "e|idx|public.profesionales_negocio_idx",
+        "n|rel|public.profesionales_negocio_idx"
+      ],
+      "reads": [
+        "n|tbl|public.profesionales",
+        "n|sch|public",
+        "n|col|public.profesionales.negocio_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "servicios",
+        "servicios_negocio_idx"
+      ],
+      "writes": [
+        "s|idx|public.servicios_negocio_idx",
+        "n|idx|public.servicios_negocio_idx",
+        "e|idx|public.servicios_negocio_idx",
+        "n|rel|public.servicios_negocio_idx"
+      ],
+      "reads": [
+        "n|tbl|public.servicios",
+        "n|sch|public",
+        "n|col|public.servicios.negocio_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "sesiones",
+        "sesiones_usuario_idx"
+      ],
+      "writes": [
+        "s|idx|public.sesiones_usuario_idx",
+        "n|idx|public.sesiones_usuario_idx",
+        "e|idx|public.sesiones_usuario_idx",
+        "n|rel|public.sesiones_usuario_idx"
+      ],
+      "reads": [
+        "n|tbl|public.sesiones",
+        "n|sch|public",
+        "n|col|public.sesiones.usuario_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "sesiones",
+        "sesiones_caducidad_idx"
+      ],
+      "writes": [
+        "s|idx|public.sesiones_caducidad_idx",
+        "n|idx|public.sesiones_caducidad_idx",
+        "e|idx|public.sesiones_caducidad_idx",
+        "n|rel|public.sesiones_caducidad_idx"
+      ],
+      "reads": [
+        "n|tbl|public.sesiones",
+        "n|sch|public",
+        "n|col|public.sesiones.caduca_en"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "citas"
+      ],
+      "writes": [
+        "s|fk|public.citas.citas_negocio_id_negocios_id_fkey",
+        "n|fk|public.citas.citas_negocio_id_negocios_id_fkey",
+        "e|fk|public.citas.citas_negocio_id_negocios_id_fkey",
+        "n|con|public.citas.citas_negocio_id_negocios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.citas",
+        "n|sch|public",
+        "n|tbl|public.negocios",
+        "n|sch|public",
+        "n|col|public.citas.negocio_id",
+        "n|col|public.negocios.id",
+        "e|uniqueness|public.negocios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "citas"
+      ],
+      "writes": [
+        "s|fk|public.citas.citas_profesional_id_profesionales_id_fkey",
+        "n|fk|public.citas.citas_profesional_id_profesionales_id_fkey",
+        "e|fk|public.citas.citas_profesional_id_profesionales_id_fkey",
+        "n|con|public.citas.citas_profesional_id_profesionales_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.citas",
+        "n|sch|public",
+        "n|tbl|public.profesionales",
+        "n|sch|public",
+        "n|col|public.citas.profesional_id",
+        "n|col|public.profesionales.id",
+        "e|uniqueness|public.profesionales.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "citas"
+      ],
+      "writes": [
+        "s|fk|public.citas.citas_servicio_id_servicios_id_fkey",
+        "n|fk|public.citas.citas_servicio_id_servicios_id_fkey",
+        "e|fk|public.citas.citas_servicio_id_servicios_id_fkey",
+        "n|con|public.citas.citas_servicio_id_servicios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.citas",
+        "n|sch|public",
+        "n|tbl|public.servicios",
+        "n|sch|public",
+        "n|col|public.citas.servicio_id",
+        "n|col|public.servicios.id",
+        "e|uniqueness|public.servicios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "horarios"
+      ],
+      "writes": [
+        "s|fk|public.horarios.horarios_profesional_id_profesionales_id_fkey",
+        "n|fk|public.horarios.horarios_profesional_id_profesionales_id_fkey",
+        "e|fk|public.horarios.horarios_profesional_id_profesionales_id_fkey",
+        "n|con|public.horarios.horarios_profesional_id_profesionales_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.horarios",
+        "n|sch|public",
+        "n|tbl|public.profesionales",
+        "n|sch|public",
+        "n|col|public.horarios.profesional_id",
+        "n|col|public.profesionales.id",
+        "e|uniqueness|public.profesionales.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "negocios"
+      ],
+      "writes": [
+        "s|fk|public.negocios.negocios_dueno_id_usuarios_id_fkey",
+        "n|fk|public.negocios.negocios_dueno_id_usuarios_id_fkey",
+        "e|fk|public.negocios.negocios_dueno_id_usuarios_id_fkey",
+        "n|con|public.negocios.negocios_dueno_id_usuarios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.negocios",
+        "n|sch|public",
+        "n|tbl|public.usuarios",
+        "n|sch|public",
+        "n|col|public.negocios.dueno_id",
+        "n|col|public.usuarios.id",
+        "e|uniqueness|public.usuarios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "profesional_servicios"
+      ],
+      "writes": [
+        "s|fk|public.profesional_servicios.profesional_servicios_profesional_id_profesionales_id_fkey",
+        "n|fk|public.profesional_servicios.profesional_servicios_profesional_id_profesionales_id_fkey",
+        "e|fk|public.profesional_servicios.profesional_servicios_profesional_id_profesionales_id_fkey",
+        "n|con|public.profesional_servicios.profesional_servicios_profesional_id_profesionales_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.profesional_servicios",
+        "n|sch|public",
+        "n|tbl|public.profesionales",
+        "n|sch|public",
+        "n|col|public.profesional_servicios.profesional_id",
+        "n|col|public.profesionales.id",
+        "e|uniqueness|public.profesionales.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "profesional_servicios"
+      ],
+      "writes": [
+        "s|fk|public.profesional_servicios.profesional_servicios_servicio_id_servicios_id_fkey",
+        "n|fk|public.profesional_servicios.profesional_servicios_servicio_id_servicios_id_fkey",
+        "e|fk|public.profesional_servicios.profesional_servicios_servicio_id_servicios_id_fkey",
+        "n|con|public.profesional_servicios.profesional_servicios_servicio_id_servicios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.profesional_servicios",
+        "n|sch|public",
+        "n|tbl|public.servicios",
+        "n|sch|public",
+        "n|col|public.profesional_servicios.servicio_id",
+        "n|col|public.servicios.id",
+        "e|uniqueness|public.servicios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "profesionales"
+      ],
+      "writes": [
+        "s|fk|public.profesionales.profesionales_negocio_id_negocios_id_fkey",
+        "n|fk|public.profesionales.profesionales_negocio_id_negocios_id_fkey",
+        "e|fk|public.profesionales.profesionales_negocio_id_negocios_id_fkey",
+        "n|con|public.profesionales.profesionales_negocio_id_negocios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.profesionales",
+        "n|sch|public",
+        "n|tbl|public.negocios",
+        "n|sch|public",
+        "n|col|public.profesionales.negocio_id",
+        "n|col|public.negocios.id",
+        "e|uniqueness|public.negocios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "servicios"
+      ],
+      "writes": [
+        "s|fk|public.servicios.servicios_negocio_id_negocios_id_fkey",
+        "n|fk|public.servicios.servicios_negocio_id_negocios_id_fkey",
+        "e|fk|public.servicios.servicios_negocio_id_negocios_id_fkey",
+        "n|con|public.servicios.servicios_negocio_id_negocios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.servicios",
+        "n|sch|public",
+        "n|tbl|public.negocios",
+        "n|sch|public",
+        "n|col|public.servicios.negocio_id",
+        "n|col|public.negocios.id",
+        "e|uniqueness|public.negocios.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "sesiones"
+      ],
+      "writes": [
+        "s|fk|public.sesiones.sesiones_usuario_id_usuarios_id_fkey",
+        "n|fk|public.sesiones.sesiones_usuario_id_usuarios_id_fkey",
+        "e|fk|public.sesiones.sesiones_usuario_id_usuarios_id_fkey",
+        "n|con|public.sesiones.sesiones_usuario_id_usuarios_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.sesiones",
+        "n|sch|public",
+        "n|tbl|public.usuarios",
+        "n|sch|public",
+        "n|col|public.sesiones.usuario_id",
+        "n|col|public.usuarios.id",
+        "e|uniqueness|public.usuarios.id"
+      ]
+    }
+  ],
+  "ddl": [
+    {
+      "schema": "public",
+      "name": "citas",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "horarios",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "negocios",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "profesional_servicios",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "profesionales",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "servicios",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "sesiones",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "usuarios",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "estado_cita",
+      "values": [
+        "CONFIRMADA",
+        "CANCELADA"
+      ],
+      "entityType": "enums"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "negocio_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "profesional_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "servicio_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "inicio",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "fin",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "cliente_nombre",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "cliente_telefono",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "cliente_email",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "estado",
+      "type": "estado_cita",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'CONFIRMADA'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "codigo",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "creada_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "cancelada_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "profesional_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "dia",
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "inicio",
+      "type": "time",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "fin",
+      "type": "time",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "slug",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "nombre",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "zona_horaria",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'Europe/Madrid'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "dueno_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "creado_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesional_servicios",
+      "name": "profesional_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesional_servicios",
+      "name": "servicio_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "negocio_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "nombre",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "activo",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "true",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "negocio_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "nombre",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "duracion_min",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "precio_centimos",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "activo",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "true",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "usuario_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "creada_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "caduca_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "ultima_actividad",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "mfa",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "metadata",
+      "type": "jsonb",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "email",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "nombre",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "hash_contrasena",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "creado_en",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_negocio_inicio_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "negocio_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "inicio",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "horarios_profesional_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "profesional_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "profesionales_negocio_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "negocio_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "servicios_negocio_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "negocio_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "sesiones_usuario_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "usuario_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "sesiones_caducidad_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "caduca_en",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_negocio_id_negocios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "negocio_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "negocios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_profesional_id_profesionales_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "profesional_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "profesionales",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_servicio_id_servicios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "servicio_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "servicios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "horarios_profesional_id_profesionales_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "profesional_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "profesionales",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "negocios_dueno_id_usuarios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "dueno_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "usuarios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "profesional_servicios",
+      "name": "profesional_servicios_profesional_id_profesionales_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "profesional_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "profesionales",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "profesional_servicios",
+      "name": "profesional_servicios_servicio_id_servicios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "servicio_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "servicios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "profesionales_negocio_id_negocios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "negocio_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "negocios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "servicios_negocio_id_negocios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "negocio_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "negocios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "sesiones_usuario_id_usuarios_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "usuario_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "usuarios",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "profesional_servicios",
+      "name": "profesional_servicios_pkey",
+      "columns": [
+        "profesional_id",
+        "servicio_id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "horarios_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "negocios_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "profesionales",
+      "name": "profesionales_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "servicios_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "sesiones",
+      "name": "sesiones_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "usuarios_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_codigo_key",
+      "nameExplicit": false,
+      "columns": [
+        "codigo"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "negocios",
+      "name": "negocios_slug_key",
+      "nameExplicit": false,
+      "columns": [
+        "slug"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "usuarios",
+      "name": "usuarios_email_key",
+      "nameExplicit": false,
+      "columns": [
+        "email"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "citas",
+      "name": "citas_intervalo_valido",
+      "value": "\"inicio\" < \"fin\"",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "horarios_dia_valido",
+      "value": "\"dia\" between 1 and 7",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "horarios",
+      "name": "horarios_tramo_valido",
+      "value": "\"inicio\" < \"fin\"",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "servicios_duracion_valida",
+      "value": "\"duracion_min\" between 5 and 480 and \"duracion_min\" % 5 = 0",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "servicios",
+      "name": "servicios_precio_valido",
+      "value": "\"precio_centimos\" >= 0",
+      "entityType": "checks"
+    }
+  ]
+}
