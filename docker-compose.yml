@@ -1,0 +1,36 @@
+# Todo junto: PostgreSQL, la API y la web en http://localhost:8080
+#   docker compose up --build
+#   docker compose exec api node dist/db/semilla.js   # datos de demostración
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: hueco
+      POSTGRES_USER: hueco
+      POSTGRES_PASSWORD: hueco
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hueco -d hueco"]
+      interval: 2s
+      retries: 30
+
+  api:
+    build: ./api
+    environment:
+      DATABASE_URL: postgres://hueco:hueco@db:5432/hueco
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: ./web
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  datos:

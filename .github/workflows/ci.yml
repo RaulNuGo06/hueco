@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+      - name: Lint (oxlint) y formato (Prettier)
+        run: npm run lint && npm run format:check
+      - name: Tests unitarios
+        run: npm test
+      # Con PGlite: PostgreSQL de verdad, en WebAssembly, con las migraciones reales
+      - name: Tests e2e
+        run: npm run test:e2e
+      - name: Compilar
+        run: npm run build
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - name: Lint (oxlint) y formato (Prettier)
+        run: npm run lint && npm run format:check
+      - name: Tests (Vitest y Testing Library)
+        run: npm test
+      - name: Compilar
+        run: npm run build
+
+  # Las imágenes de verdad, con PostgreSQL 17: arrancan, migran, cargan la demo y responden
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir y arrancar
+        run: docker compose up --build -d
+      - name: Esperar a la API
+        run: for i in $(seq 1 60); do curl -fs localhost:8080/api/salud && break; sleep 2; done
+      - name: Cargar la barbería de demostración
+        run: docker compose exec -T api node dist/db/semilla.js
+      - name: Comprobar la API y la web a través de nginx
+        run: |
+          curl -fs localhost:8080/api/salud
+          curl -fs localhost:8080/api/negocios/barberia-el-tupe | grep -q 'Barbería El Tupé'
+          curl -fs localhost:8080/ | grep -q '<div id="root">'
+          curl -fs localhost:8080/r/barberia-el-tupe | grep -q '<div id="root">'
+          # Entrar con la cuenta de demostración y leer la agenda con la cookie de sesión
+          curl -fs -c galletas -H 'Content-Type: application/json' \
+            -d '{"email":"demo@hueco.dev","contrasena":"demo-hueco-2026"}' localhost:8080/api/auth/entrar
+          curl -fs -b galletas localhost:8080/api/panel/negocios | grep -q barberia-el-tupe
+      - name: Logs
+        if: failure()
+        run: docker compose logs
