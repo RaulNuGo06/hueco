@@ -6,6 +6,9 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
  */
 export type Database = NodePgDatabase;
 
+/** Donde se puede consultar: la base de datos o una transacción abierta. */
+export type Consultas = Database | Parameters<Parameters<Database['transaction']>[0]>[0];
+
 /** El código de PostgreSQL de un error, mirando también el error original que envuelve Drizzle. */
 export function codigoPostgres(error: unknown): string | undefined {
   for (let e: unknown = error; e && typeof e === 'object'; e = (e as { cause?: unknown }).cause) {

@@ -159,6 +159,20 @@ export const sesiones = pgTable(
   (t) => [index('sesiones_usuario_idx').on(t.userId), index('sesiones_caducidad_idx').on(t.expiresAt)],
 );
 
+/**
+ * Contadores por ventana fija para limitar el ritmo de algunas rutas públicas (reservar).
+ * La clave es el SHA-256 de la ruta y la IP: la IP no se guarda.
+ */
+export const limites = pgTable(
+  'limites',
+  {
+    clave: text().primaryKey(),
+    ventanaFin: instante('ventana_fin').notNull(),
+    cuenta: integer().notNull(),
+  },
+  (t) => [index('limites_ventana_fin_idx').on(t.ventanaFin)],
+);
+
 export type Usuario = typeof usuarios.$inferSelect;
 export type Negocio = typeof negocios.$inferSelect;
 export type Servicio = typeof servicios.$inferSelect;

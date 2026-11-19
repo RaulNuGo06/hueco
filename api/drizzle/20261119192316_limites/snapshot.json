@@ -1,0 +1,146 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "8f95c818-e1aa-4535-9200-a7888d908b03",
+  "prevIds": [
+    "7d8fa9dd-1f46-4439-91ca-245a58612128"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "limites"
+      ],
+      "writes": [
+        "s|tbl|public.limites",
+        "n|tbl|public.limites",
+        "e|tbl|public.limites",
+        "n|rel|public.limites",
+        "n|type|public.limites",
+        "n|rel|public.limites_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "limites",
+        "limites_ventana_fin_idx"
+      ],
+      "writes": [
+        "s|idx|public.limites_ventana_fin_idx",
+        "n|idx|public.limites_ventana_fin_idx",
+        "e|idx|public.limites_ventana_fin_idx",
+        "n|rel|public.limites_ventana_fin_idx"
+      ],
+      "reads": [
+        "n|tbl|public.limites",
+        "n|sch|public",
+        "n|col|public.limites.ventana_fin"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "limites",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "limites",
+        "name": "clave",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "limites",
+        "name": "ventana_fin",
+        "type": "timestamp with time zone",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "limites",
+        "name": "cuenta",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "limites",
+        "name": "limites_ventana_fin_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "ventana_fin",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "limites",
+        "name": "limites_pkey",
+        "columns": [
+          "clave"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Demo pública en Render: https://render.com/docs/blueprint-spec
+# La base de datos va aparte (por ejemplo Neon, que tiene plan gratuito sin caducidad).
+services:
+  - type: web
+    name: hueco
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/salud
+    # Cada vez que arranca (en el plan gratuito, al despertar) vuelve a dejar la barbería de demostración como nueva
+    dockerCommand: sh -c "node dist/db/semilla.js && node dist/main.js"
+    envVars:
+      # postgres://<usuario>:<contraseña>@<host>/<base>?sslmode=require
+      - key: DATABASE_URL
+        sync: false
+      # El proxy de Render pone bien el protocolo (https), así la cookie de sesión puede ser Secure
+      - key: TRUST_PROXY
+        value: "true"
+      # Render añade a X-Forwarded-For lo que mande el cliente, sin limpiarlo: la IP se lee de la cabecera
+      # de Cloudflare, que va delante de Render y no se puede falsear desde fuera
+      - key: CABECERA_IP_CLIENTE
+        value: true-client-ip
