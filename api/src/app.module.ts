@@ -6,6 +6,8 @@ import { CuentasModule } from './cuentas/cuentas.module.js';
 import { urlBaseDeDatos } from './db/migrar.js';
 import { PanelController } from './panel/panel.controller.js';
 import { PanelService } from './panel/panel.service.js';
+import { LimiteIpGuard } from './reservas/limite-ip.guard.js';
+import { LIMITES, LIMITES_POR_DEFECTO } from './reservas/limites.js';
 import { ReservasController } from './reservas/reservas.controller.js';
 import { ReservasService } from './reservas/reservas.service.js';
 import { SaludController } from './salud.controller.js';
@@ -26,6 +28,11 @@ import { SaludController } from './salud.controller.js';
     CuentasModule,
   ],
   controllers: [SaludController, ReservasController, PanelController],
-  providers: [ReservasService, PanelService],
+  providers: [
+    ReservasService,
+    PanelService,
+    LimiteIpGuard,
+    { provide: LIMITES, useValue: LIMITES_POR_DEFECTO },
+  ],
 })
 export class AppModule {}

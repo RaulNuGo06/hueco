@@ -73,3 +73,40 @@ jobs:
       - name: Logs
         if: failure()
         run: docker compose logs
+
+  # La imagen de la demo pública (Dockerfile de la raíz): la API sirve también la web
+  imagen-demo:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: hueco
+          POSTGRES_USER: hueco
+          POSTGRES_PASSWORD: hueco
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U hueco -d hueco"
+          --health-interval 2s
+          --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir la imagen
+        run: docker build -t hueco-demo .
+      - name: Arrancar como en Render, con la semilla delante
+        run: |
+          docker run -d --name hueco --network host             -e DATABASE_URL=postgres://hueco:hueco@localhost:5432/hueco -e COOKIE_SEGURA=false             hueco-demo sh -c "node dist/db/semilla.js && node dist/main.js"
+      - name: Esperar a la API
+        run: for i in $(seq 1 60); do curl -fs localhost:3000/api/salud && break; sleep 2; done
+      - name: Comprobar la API y la web en el mismo origen
+        run: |
+          curl -fs localhost:3000/api/salud
+          curl -fs localhost:3000/api/negocios/barberia-el-tupe | grep -q 'Barbería El Tupé'
+          curl -fs localhost:3000/ | grep -q '<div id="root">'
+          curl -fs localhost:3000/r/barberia-el-tupe | grep -q '<div id="root">'
+          curl -fs -c galletas -H 'Content-Type: application/json'             -d '{"email":"demo@hueco.dev","contrasena":"demo-hueco-2026"}' localhost:3000/api/auth/entrar
+          curl -fs -b galletas localhost:3000/api/panel/negocios | grep -q barberia-el-tupe
+      - name: Logs
+        if: failure()
+        run: docker logs hueco

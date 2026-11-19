@@ -60,6 +60,15 @@ ALTER TABLE citas ADD CONSTRAINT citas_sin_solapes
 
 Si dos reservas chocan, la segunda falla con el error `23P01` y la API prueba con el siguiente profesional libre a esa hora, o responde `409`. Hay un test que lanza diez reservas a la vez para el mismo hueco y comprueba que entra exactamente una, y otro que inserta un solape directamente en la base de datos, saltándose la API, y comprueba que también se rechaza. Las citas canceladas no cuentan, y el intervalo `[inicio, fin)` deja que una cita empiece justo cuando acaba otra.
 
+### Nadie puede llenar la agenda de citas falsas
+
+Reservar no pide cuenta, así que hay dos límites, los dos en PostgreSQL para que valgan con varias instancias y tras un reinicio:
+
+- **Por teléfono:** como mucho **3 citas pendientes** (confirmadas y por venir) por teléfono en cada negocio. Se comparan los nueve últimos dígitos, así que `600 123 456`, `+34600123456` y `0034 600 123 456` son el mismo. Para que dos reservas a la vez con el mismo teléfono no vean las dos "2 de 3", la reserva es una transacción que empieza con `pg_advisory_xact_lock` sobre el negocio y el teléfono; cada inserción va en su propio punto de guardado, para poder seguir probando con otro profesional si choca. Al pasar del límite responde `422` y el cliente puede cancelar alguna cita desde su enlace.
+- **Por IP:** como mucho **20 intentos de reserva por hora** desde una misma IP, contando también los que fallan. Es una ventana fija en la tabla `limites`, y contar es una sola sentencia (`INSERT … ON CONFLICT DO UPDATE … RETURNING`), así que dos peticiones a la vez no leen la misma cuenta. Al pasarse responde `429` con `Retry-After`. La IP no se guarda en claro: la clave es su SHA-256.
+
+Sacar la IP real detrás de un proxy tiene trampa: `X-Forwarded-For` lo puede escribir el cliente. Express solo se fía de los proxies de la red local (el nginx del `docker compose`), y se puede cambiar con `TRUST_PROXY`. En Render, que añade a esa cabecera lo que mande el cliente sin limpiarlo, la IP se lee de `True-Client-IP` (la pone Cloudflare) con `CABECERA_IP_CLIENTE`. Hay tests de que cambiar `X-Forwarded-For` no sirve para saltarse el límite.
+
 ### Zonas horarias
 
 Los horarios son hora local del negocio ("de 9:30 a 13:30") y las citas son instantes (`timestamptz`). El cálculo de huecos (`disponibilidad.ts`) es una función pura que convierte cada tramo a instantes con la zona del negocio, así que el mismo horario empieza a las 8:30 UTC en invierno y a las 7:30 UTC en verano. Tiene tests de los dos días de cambio de hora: el de 25 horas y el de 23.
@@ -79,9 +88,9 @@ Los horarios son hora local del negocio ("de 9:30 a 13:30") y las citas son inst
 
 ### Tests
 
-- **API:** 13 tests unitarios del cálculo de huecos y 25 e2e que arrancan la aplicación de verdad contra **PGlite** (PostgreSQL compilado a WebAssembly) con las migraciones reales. No hace falta Docker para pasarlos.
+- **API:** 13 tests unitarios del cálculo de huecos y 34 e2e que arrancan la aplicación de verdad contra **PGlite** (PostgreSQL compilado a WebAssembly) con las migraciones reales. No hace falta Docker para pasarlos.
 - **Web:** 9 tests con Vitest y Testing Library, entre ellos el flujo completo de reserva.
-- **CI:** lint (oxlint), formato (Prettier), tests y compilación de las dos partes, y un tercer trabajo que levanta el `docker compose` completo con PostgreSQL 17, carga la demo y comprueba la API, la web y el inicio de sesión a través de nginx.
+- **CI:** lint (oxlint), formato (Prettier), tests y compilación de las dos partes, y un tercer trabajo que levanta el `docker compose` completo con PostgreSQL 17, carga la demo y comprueba la API, la web y el inicio de sesión a través de nginx. Un cuarto trabajo hace lo mismo con la imagen de la demo pública.
 
 ## Cómo arrancarlo
 
@@ -97,6 +106,15 @@ Abre `http://localhost:8080/r/barberia-el-tupe` para reservar como cliente y `ht
 - Email: `demo@hueco.dev`
 - Contraseña: `demo-hueco-2026`
 
+### Demo pública (Render)
+
+El `Dockerfile` de la raíz mete la web compilada dentro de la imagen de la API, que la sirve en el mismo origen (`CARPETA_WEB`): un solo servicio, sin nginx. `render.yaml` lo despliega en el plan gratuito de Render y, cada vez que arranca, vuelve a cargar la barbería de demostración. La base de datos va aparte (por ejemplo Neon): solo hay que poner su `DATABASE_URL` con `?sslmode=require`.
+
+```bash
+docker build -t hueco .
+docker run -p 3000:3000 -e DATABASE_URL=postgres://... -e COOKIE_SEGURA=false hueco
+```
+
 ### Para desarrollar
 
 Necesitas Node 24 y PostgreSQL 17 (vale el del `docker compose`: `docker compose up -d db`).
@@ -110,7 +128,7 @@ cd web && npm install
 npm run dev           # web en localhost:5173 (las llamadas a /api van a la API)
 ```
 
-Variables de la API: `DATABASE_URL` (por defecto `postgres://hueco:hueco@localhost:5432/hueco`), `PORT` y `COOKIE_SEGURA=false` si se sirve por HTTP desde un host que no sea `localhost`.
+Variables de la API: `DATABASE_URL` (por defecto `postgres://hueco:hueco@localhost:5432/hueco`), `PORT`, `COOKIE_SEGURA=false` si se sirve por HTTP desde un host que no sea `localhost`, `TRUST_PROXY` y `CABECERA_IP_CLIENTE` (ver los límites de reservas) y `CARPETA_WEB` para servir la web desde la API.
 
 ### Tests
 
@@ -125,14 +143,14 @@ cd web && npm test
 |---|---|
 | API | NestJS 12, TypeScript, Drizzle ORM, PostgreSQL 17, Zod, `@nestjs/authentication`, OpenAPI, Vitest, PGlite |
 | Web | React 19, Vite, React Router, TanStack Query, Vitest, Testing Library |
-| Infraestructura | Docker, Docker Compose, nginx, GitHub Actions |
+| Infraestructura | Docker, Docker Compose, nginx, GitHub Actions, Render |
 
 ## Hoja de ruta
 
 - [x] **Fase 1:** reservas sin solapes, horarios con jornada partida, enlace de la cita, agenda del panel, tests y CI
 - [ ] **Fase 2:** servicios, equipo y horarios desde el panel; días festivos y vacaciones de cada profesional
 - [ ] **Fase 3:** recordatorio por email el día antes y aviso al negocio de cada reserva
-- [ ] **Fase 4:** límite de reservas por IP y teléfono, y despliegue con una demo pública
+- [x] **Fase 4:** límite de reservas por IP y teléfono, e imagen y `render.yaml` para la demo pública
 
 ## Autor
 

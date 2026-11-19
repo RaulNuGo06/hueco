@@ -1,7 +1,8 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { Public } from '@nestjs/authentication';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiTooManyRequestsResponse, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
 import { z } from 'zod';
+import { LimiteIpGuard } from './limite-ip.guard.js';
 import { ReservasService } from './reservas.service.js';
 
 export const fechaSchema = z.iso.date();
@@ -50,6 +51,9 @@ export class ReservasController {
   }
 
   @Post('negocios/:slug/citas')
+  @UseGuards(LimiteIpGuard)
+  @ApiTooManyRequestsResponse({ description: 'Demasiados intentos de reserva desde la misma IP' })
+  @ApiUnprocessableEntityResponse({ description: 'Ese teléfono ya tiene el máximo de citas pendientes' })
   reservar(
     @Param('slug') slug: string,
     @Body({ schema: reservaSchema }) datos: z.infer<typeof reservaSchema>,

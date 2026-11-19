@@ -1,4 +1,4 @@
-import type { INestApplication } from '@nestjs/common';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { Test } from '@nestjs/testing';
 import { PGlite } from '@electric-sql/pglite';
 import { btree_gist } from '@electric-sql/pglite/contrib/btree_gist';
@@ -8,16 +8,20 @@ import { drizzle } from 'drizzle-orm/pglite';
 import { migrate } from 'drizzle-orm/pglite/migrator';
 import request from 'supertest';
 import { AppModule } from '../src/app.module.js';
-import { configurar } from '../src/configurar.js';
+import { configurar, servirWeb } from '../src/configurar.js';
 import { CARPETA_MIGRACIONES } from '../src/db/migrar.js';
 import { fechaLocal } from '../src/reservas/disponibilidad.js';
+import { LIMITES, type Limites } from '../src/reservas/limites.js';
 
 /**
  * La aplicación de verdad, con dos cambios: la base de datos es PGlite (PostgreSQL compilado a WebAssembly,
  * con las migraciones reales y la extensión btree_gist), así que los tests no necesitan un servidor,
  * y el hash de contraseñas es más barato para que los tests vayan rápido.
+ *
+ * Los límites de reservas por IP y por teléfono son muy altos salvo que el test pida otros: todas las peticiones
+ * de los tests salen de la misma IP y del mismo cliente, y cada límite se prueba aparte en limites.e2e-spec.ts.
  */
-export async function crearApp() {
+export async function crearApp(opciones: { limites?: Limites; carpetaWeb?: string } = {}) {
   const pglite = new PGlite({ extensions: { btree_gist } });
   const db = drizzle({ client: pglite });
   await migrate(db, { migrationsFolder: CARPETA_MIGRACIONES });
@@ -27,9 +31,12 @@ export async function crearApp() {
     .useValue(db)
     .overrideProvider(PasswordHasher)
     .useValue(new PasswordHasher({ logN: 10 }))
+    .overrideProvider(LIMITES)
+    .useValue(opciones.limites ?? SIN_LIMITES)
     .compile();
 
-  const app: INestApplication = configurar(modulo.createNestApplication());
+  const app = configurar(modulo.createNestApplication<NestExpressApplication>());
+  if (opciones.carpetaWeb) servirWeb(app, opciones.carpetaWeb);
   await app.init();
 
   return {
@@ -42,6 +49,11 @@ export async function crearApp() {
     },
   };
 }
+
+const SIN_LIMITES: Limites = {
+  citasPendientesPorTelefono: 1000,
+  reservasPorIp: { max: 1000, ventanaMin: 60 },
+};
 
 export type AppDePrueba = Awaited<ReturnType<typeof crearApp>>;
 
